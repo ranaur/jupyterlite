@@ -6,6 +6,12 @@
         "jupyterlab-kernel-spy",
         "jupyterlab-tour"
       ]
+    },
+    "PipliteAddon": {
+      "piplite_urls": [
+          "https://files.pythonhosted.org/packages/d6/72/b965bbfcfe5bcd486bbfc10a73345d51551971457ac2b84f786bfc6d86db/rectpack-0.2.2.tar.gz"
+        ]
     }
+
   }
   
