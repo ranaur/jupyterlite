@@ -1,0 +1,26 @@
+#!/bin/bash
+
+for file in env/bin/*.exe ; do
+    echo PROCESSING: $file
+    REGEXP_PAT="python.*.exe"
+    if [[ "$file" =~ $REGEXP_PAT ]] ; then
+        continue
+    fi
+
+    MODULE="$(strings $file  | grep 'from .* import main')"
+
+    FILENAME="${file%.*}"
+    echo "  moving $FILENAME.exe to $FILENAME.old"
+    mv "$FILENAME.exe" "$FILENAME.old"
+    echo "  creating stub $FILENAME"
+cat > "$FILENAME" << __STUB__
+#!/bin/env python3
+# -*- coding: utf-8 -*-
+import re
+import sys
+$MODULE
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
+__STUB__
+done
